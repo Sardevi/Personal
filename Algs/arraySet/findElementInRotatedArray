@@ -1,0 +1,75 @@
+/******************************************************************************
+
+ Solved and developed by Saranyadevi Joseph
+
+
+Problem 3:
+===========
+Given a sorted array of n integers that has been rotated an unknown number of times,
+ write code to find an element in the array.
+ You may assume that the array was originally sorted in increasing order.
+
+ Soultion
+ ========
+ 
+Binary search
+1. Find the middle element for the given array and check data for all the index available in hand. skip it in next iteration
+2. if left array is in ascending order and element to be found is inbtw that range - recursive call with left array
+3. else right array is in ascending order and element to be found is inbtw that range - recursive call with right array
+4. recurrsive call for sub array start+1,..end-1. As those elements were already considered
+
+ Runtime complexity
+ ==================
+ Best case : O(log n)
+ worst case : O(n)
+
+ space Complexity : O(log n)- recurrsive call
+*******************************************************************************/
+
+#include <stdio.h>
+
+
+/* Method : findElement
+   return : int ,element index if found else returns -1
+arguments : int arr , given input array
+	    int numOfElements in the input array
+	    int start, start index initialized  = 0
+	    int end , end index intialized = numOfElements-1
+	    int element, element to be found in the input array
+ * */
+int findElement(int arr[],int NumOfElements,int start, int end, int element)
+{
+    if(start<0 || end>NumOfElements || start>=end ||end<start ||end<0) return -1;
+    
+    if(arr[start]==element) return start;
+    if(arr[end]==element) return end;
+    
+    int midElement=start+(end-start)/2;
+    
+//    printf("\NumOfElements start : %d  end : %d   midElement: %d ",start,end,midElement);
+    
+    if(arr[midElement]==element) return midElement;
+    else if(element>arr[start] && element<arr[midElement]) // left will be in inc order
+       return findElement(arr,NumOfElements,0,midElement-1,element);
+    else if(element>arr[midElement] && element<arr[end]) // right will be in inc order
+       return findElement(arr,NumOfElements,midElement+1,end,element);
+    else    // binary pointer is indtw non sorted array, element can be in either sides
+       return findElement(arr,NumOfElements,start+1,end-1,element);
+}
+
+int main()
+{
+ //            0,1,2,3,4, 5,6,7,8    
+    int arr[]={4,5,6,7,-1,0,1,2,3};
+    const int NumOfElements=sizeof(arr)/sizeof(arr[0]);
+    int index=-1 , element=-999;
+    printf("Enter the element to find : ");
+    scanf( "%d",&element);
+    index=findElement(arr,NumOfElements,0,NumOfElements-1,element);
+    
+    if(index==-1) printf("\nElement ( %d ) is not found",element);
+    else
+     printf("\nElement ( %d ) is found at index ( %d )",element,index);
+    return 0;
+    
+}
