@@ -1,0 +1,62 @@
+/******************************************************************************
+
+Solved and developed by : Saranyadevi Joseph
+
+Problem 4 : 
+===========
+Given an array that contains numbers from 1 to n-1 and exactly 1 duplicate, find that duplicate.");
+
+
+Soultion 
+==========
+
+HashMap(Key as number in the given array,
+        Value as count of number occurance)
+ 
+
+Runtime Complexity
+==================
+
+r = maximum value in the given array
+
+Best case = O(r) // initialize the HashMap value to 0
+worst case = O(r+n);
+
+space complexity : O(r)   
+*******************************************************************************/
+
+#include <stdio.h>
+
+
+/* Method  : findDuplicate
+   returns : void
+   Arguments : n , number of elements in the input array
+               arr , input array
+*/
+void findDuplicate(int n, int arr[])
+{
+    int HashMapp[20]; // 20 (r) Max value in give array.
+    for(int i=0;i<20;i++)
+    {
+        HashMapp[i]=0; 
+    }
+    for(int i=0;i<n;i++)
+    {
+        HashMapp[arr[i]]+=1;
+        
+        if(HashMapp[arr[i]]>=2) 
+          { 
+              printf("Duplicate Element is : %d",arr[i]);
+              return;
+          }
+    }
+}
+
+int main()
+{
+ 
+    int arr[]={1,4,5,7,9,13,5};
+    int n=sizeof(arr)/sizeof(arr[0]);
+    findDuplicate(n,arr);
+    return 0;
+}
