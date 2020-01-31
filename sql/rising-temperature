@@ -17,9 +17,8 @@ For example, return the following Ids for the above Weather table:
 
 SOLUTION
 =========
-
-SELECT wt.Id
+SELECT wt.id
 FROM Weather AS wt 
 JOIN Weather AS wy
-ON wt.RecordDate=wy.RecordDate+1
+ON wy.RecordDate=DATE_SUB(wt.RecordDate, INTERVAL 1 DAY)
 AND wt.temperature>wy.temperature;
