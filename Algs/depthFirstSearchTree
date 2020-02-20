@@ -1,0 +1,137 @@
+#include<stdio.h>
+#include<iostream>
+
+/***
+ * Problem: Build a balanced Tree and perform in,pre and post order traversal
+ * ========
+ * 
+ * TimeComplexity : O(n), everynode is traversed once
+ * SpaceComplexity: O(n), tree size
+ * 
+ * Logic:
+ * =======
+ * BuildTree: 1) building a tree from a given array, root=array[0](first value) where nodeIndex=0
+ *               left child = 2*nodeIndex+1, right child =2*nodeIndex+2 
+ *            2) one node is created per call and BuildTree is recursively called for everynode creation
+ * 
+ * 
+ * depthFirstSearch : Pre Order traversal check is performed. Order as follows starts with currentNode as root
+ *                  1) currentNode
+ *                  2) currentNode left node , recursively called which repeats the search for left tree
+ *                  3) currentNode right node, recursively called which repeats the search for right tree
+ *                  
+******
+Sample Input :  arr[]={1,2,3,5,7,8,9};
+ * Output : 
+depthFirstSearch for target [1]
+Target Value [1] found in level : 0
+ 
+
+depthFirstSearch for target [9]
+ Target Value [9] found in level : 2
+
+
+depthFirstSearch for target [11]
+Target [11] not found
+
+
+ ***/
+ 
+ 
+class node{
+      int data;
+      node* left;
+      node* right;
+    public:
+      node()
+      {
+          data=-999;
+          left=NULL;
+          right=NULL;
+      }
+      node(int value)
+      {
+          data=value;
+          left=NULL;
+          right=NULL;
+      }
+      ~node()
+      {
+          std::cout << "Node is deleted" << std::endl;
+      }
+
+    node* buildTree(int arr[],int length,int current=0);
+    int depthFirstSearch(node* currentNode,int target,int level=0);
+
+};
+
+/* Method : buildTree
+   Class : node
+   Arguments : int arr[], input data/values to build the tree
+                int length, length of the given input array
+                int currentIndex, index to the element for which the currentNode is created 
+   Return : node pointer, pointer to the created New Node
+   Logic:  1) building a tree from a given array, root=array[0](first value) where nodeIndex=0
+              left child = 2*nodeIndex+1, right child =2*nodeIndex+2 
+           2) one node is created per call and BuildTree is recursively called for everynode creation
+*/
+
+node* node::buildTree(int arr[],int length,int currentI)
+{
+    
+    if(currentI>=length) return NULL;
+    node *currentNode;
+    if(currentI==0) 
+    { 
+        currentNode=this;
+        currentNode->data=arr[currentI];
+    }
+    else
+        currentNode=new node(arr[currentI]);
+
+    currentNode->left=buildTree(arr,length,2*currentI+1);
+    currentNode->right=buildTree(arr,length,2*currentI+2);
+
+    return currentNode;
+};
+
+/****
+Method : depthFirstSearch
+Class : node
+return : int level, in which level target value is found, 0 as root level
+Arguments : node pointer currentNode, 
+            int target value to be found
+            int level of the currentNode which is being read
+Logic :  Pre Order traversal check is performed. Order as follows starts with currentNode as root
+ *                  1) currentNode
+ *                  2) currentNode left node , recursively called which repeats the search for left tree
+ *                  3) currentNode right node, recursively called which repeats the search for right tree
+ 
+***/
+
+int node::depthFirstSearch(node* currentNode,int target,int level)
+{
+   if(currentNode==NULL) return -1;
+   if(currentNode->data==target)
+   {
+      std::cout<<"\n Target Value ["<<target<<"] found in level : "<< level;   
+      return level;
+   }
+   depthFirstSearch(currentNode->left, target, level+1);
+   depthFirstSearch(currentNode->right, target, level+1);
+   return -1;
+}
+
+
+int main()
+{
+    int arr[]={1,2,3,5,7,8,9};
+    int length=sizeof(arr)/sizeof(arr[0]);
+    node *root=new node();
+    root->buildTree(arr,length);
+    int target=11;
+    std::cout<<"\ndepthFirstSearch for target ["<<target<<"]";
+    if(root->depthFirstSearch(root,target)==-1)
+     std::cout<<"\nTarget ["<<target<<"] not found";
+    return 1;
+}
