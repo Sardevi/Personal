@@ -18,7 +18,14 @@ Note: The length of path between two nodes is represented by the number of edges
  *     TreeNode *right;
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
+ space Complexity : O(n) recursion call
+ time complexity : O(n) every node is visited once
+ Logic:
+    1) Depth of the node is : Max number of levels below that node. ie., Max of (left subtree levels below, right subtree below) that node + 1 for that particular node
+    2) longest distance between any 2 nodes in that subtree will be max(depthLeft + depthRight) + 1 (currNode) 
+    3) so diameter is : max of all the longest distance(point 2)
  */
+ 
 class Solution {
 public:
     
