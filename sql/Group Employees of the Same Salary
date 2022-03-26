@@ -1,0 +1,53 @@
+
+1875. Group Employees of the Same Salary
+
+# MySQL query statement below
+
+/*
+Alg:
+1. Create team Id based on salary group ,Constraints: No single member team
+2. assign the team id to employee_id
+3. Order the results by team_id, employee_id both asc
+
+
+Eg:
+1. Create team Id based on salary group ,Constraints: No single member team
+Teams;
++-------------+---------+
+| team_id    | salary   |
++-------------+---------+
+| 1          | 3000     |
+| 2          | 7400     |
+
+
+2. assign the team id to employee_id
+
+JOIN Employees e with Teams t
++-------------+---------+--------++-------------+---------+
+| employee_id | name    | salary |  t.team_id  | t.salary
++-------------+---------+--------++-------------+-----------
+| 2           | Meir    | 3000   | 1          | 3000     |
+| 3           | Michael | 3000   | 1          | 3000     |
+| 7           | Addilyn | 7400   | 2          | 7400     |
+| 9           | Kannon  | 7400   | 2          | 7400     |
+
+*/
+WITH Teams AS
+(
+    SELECT row_number() OVER (ORDER BY salary ASC) team_id,
+           salary
+    FROM Employees
+    GROUP BY salary
+    HAVING COUNT(1) > 1
+)
+SELECT DISTINCT e.employee_id, 
+       e.name,
+       e.salary,
+       t.team_id
+FROM Employees e
+JOIN Teams t
+  ON e.salary = t.salary
+ORDER BY team_id,  employee_id
+
+Runtime: 620 ms, faster than 50.00% of MySQL online submissions for Group Employees of the Same Salary.
+Memory Usage: 0B, less than 100.00% of MySQL online submissions for Group Employees of the Same Salary.
