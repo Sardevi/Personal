@@ -1,0 +1,93 @@
+571. Find Median Given Frequency of Numbers
+# MySQL query statement below
+/*
+Find median (return in 1 deceimal point)
+1. Find the middle number(s), => find the position ( if odd totalfrequency+1/2, if even totalfrequency/2 and (totalfrequency/2)+1) Eg: totalfrequency=8 Middle numbers are (4,5), 
+totalfrequency=7, (totalfrequency+1/2) = 4 
+2. Median for odd middle number, even is sum of 2 middle number /2
+
++-----+-----------+
+| num | frequency | sumtn
++-----+-----------+
+| 0   | 7         | 7
+| 1   | 1         | 8
+| 2   | 3         | 11
+| 3   | 1         | 12
+| 4   | 2         | 14
++-----+-----------+
+total freq=14
+
+*/
+WITH sumOfFreq AS
+(
+    SELECT num, 
+           frequency,
+           SUM(frequency) OVER (ORDER BY num) sumtn
+           FROM Numbers
+),
+totalFreq AS
+(
+    SELECT SUM(frequency) total_frequency
+            FROM Numbers
+)
+SELECT ROUND(AVG(num),1) median 
+FROM sumOfFreq s
+WHERE sumtn - frequency <= (SELECT total_frequency 
+                            FROM totalFreq)/2 
+AND sumtn >= (SELECT total_frequency 
+            FROM totalFreq)/2
+            
+Runtime: 176 ms, faster than 97.97% of MySQL online submissions for Find Median Given Frequency of Numbers.
+Memory Usage: 0B, less than 100.00% of MySQL online submissions for Find Median Given Frequency of Numbers.
+
+571. Find Median Given Frequency of Numbers
+Hard
+
+217
+
+63
+
+Add to List
+
+Share
+SQL Schema
+Table: Numbers
+
++-------------+------+
+| Column Name | Type |
++-------------+------+
+| num         | int  |
+| frequency   | int  |
++-------------+------+
+num is the primary key for this table.
+Each row of this table shows the frequency of a number in the database.
+ 
+
+The median is the value separating the higher half from the lower half of a data sample.
+
+Write an SQL query to report the median of all the numbers in the database after decompressing the Numbers table. Round the median to one decimal point.
+
+The query result format is in the following example.
+
+ 
+
+Example 1:
+
+Input: 
+Numbers table:
++-----+-----------+
+| num | frequency |
++-----+-----------+
+| 0   | 7         |
+| 1   | 1         |
+| 2   | 3         |
+| 3   | 1         |
++-----+-----------+
+Output: 
++--------+
+| median |
++--------+
+| 0.0    |
++--------+
+Explanation: 
+If we decompress the Numbers table, we will get [0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 2, 3], so the median is (0 + 0) / 2 = 0.
