@@ -1,0 +1,36 @@
+1517. Find Users With Valid E-Mails
+
+Table: Users
+
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| user_id       | int     |
+| name          | varchar |
+| mail          | varchar |
++---------------+---------+
+user_id is the primary key for this table.
+This table contains information of the users signed up in a website. Some e-mails are invalid.
+ 
+
+Write an SQL query to find the users who have valid emails.
+
+A valid e-mail has a prefix name and a domain where:
+
+The prefix name is a string that may contain letters (upper or lower case), digits, underscore '_', period '.', and/or dash '-'. The prefix name must start with a letter.
+The domain is '@leetcode.com'.
+Return the result table in any order.
+
+The query result format is in the following example.
+
+ 
+#  MySQL query statement below
+# Using regular expresion for matching
+SELECT user_id,
+       name,
+       mail
+FROM Users
+WHERE mail REGEXP '^[a-z|A-Z]+[-|_|\\.|0-9|a-z|A-Z]*@leetcode\\.com$'
+Runtime: 1181 ms, faster than 8.56% of MySQL online submissions for Find Users With Valid E-Mails.
+Memory Usage: 0B, less than 100.00% of MySQL online submissions for Find Users With Valid E-Mails.
+
