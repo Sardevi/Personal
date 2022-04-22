@@ -1,0 +1,54 @@
+1667. Fix Names in a Table
+Table: Users
+
++----------------+---------+
+| Column Name    | Type    |
++----------------+---------+
+| user_id        | int     |
+| name           | varchar |
++----------------+---------+
+user_id is the primary key for this table.
+This table contains the ID and the name of the user. The name consists of only lowercase and uppercase characters.
+ 
+
+Write an SQL query to fix the names so that only the first character is uppercase and the rest are lowercase.
+
+Return the result table ordered by user_id.
+
+The query result format is in the following example.
+
+ 
+
+Example 1:
+
+Input: 
+Users table:
++---------+-------+
+| user_id | name  |
++---------+-------+
+| 1       | aLice |
+| 2       | bOB   |
++---------+-------+
+Output: 
++---------+-------+
+| user_id | name  |
++---------+-------+
+| 1       | Alice |
+| 2       | Bob   |
++---------+-------+
+
+# MySQL query statement below
+/*
+aLg:
+1. using str operations for name, split 1st and rest using length funstion
+2. change case
+3. concate both
+*/
+
+SELECT user_id,
+       CONCAT(UPPER(LEFT(name,1)), LOWER(RIGHT(name,LENGTH(name)-1))) name
+FROM Users
+ORDER BY user_id
+
+Runtime: 595 ms, faster than 69.56% of MySQL online submissions for Fix Names in a Table.
+Memory Usage: 0B, less than 100.00% of MySQL online submissions for Fix Names in a Table.
