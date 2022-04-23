@@ -1,0 +1,66 @@
+121. Best Time to Buy and Sell Stock
+You are given an array prices where prices[i] is the price of a given stock on the ith day.
+
+You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
+
+Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
+
+ 
+
+Example 1:
+
+Input: prices = [7,1,5,3,6,4]
+Output: 5
+Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
+Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.
+Example 2:
+
+Input: prices = [7,6,4,3,1]
+Output: 0
+Explanation: In this case, no transactions are done and the max profit = 0.
+ 
+
+Constraints:
+
+1 <= prices.length <= 105
+0 <= prices[i] <= 104
+class Solution {
+public:
+    /*
+    Alg:
+    O(n) time complexity
+    O(1) space complexity
+    
+    1.create 2 var buy_i and sell_i both initialize to zero. 
+    2. Iterate the array finding the min for buy_value= min(prices[i],buy_value) and sell_value= max(prices[i],sell_value) 
+    3. get the max profit 
+    */
+ int maxProfit(vector<int>& prices) {
+        
+        int n=prices.size();
+        if(n<1) return 0;
+        
+        int sell_value=prices[0];
+        int buy_value=prices[0];
+        int profit=0;
+        
+        for(int i=1;i<n;i++)
+        {
+            if(prices[i] < buy_value) 
+            {
+                buy_value = prices[i];
+                sell_value = prices[i]; //rest the sell_value because we cannot sell predated
+            }
+            else if(prices[i] > sell_value)
+            {
+                sell_value = prices[i];
+            }
+            profit=max(profit,sell_value-buy_value);
+        }
+        return profit;
+    }
+ 
+};
+
+Runtime: 153 ms, faster than 65.84% of C++ online submissions for Best Time to Buy and Sell Stock.
+Memory Usage: 93.3 MB, less than 90.21% of C++ online submissions for Best Time to Buy and Sell Stock.
