@@ -1,0 +1,63 @@
+1. Two Sum
+
+Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
+
+You can return the answer in any order.
+
+ 
+
+Example 1:
+
+Input: nums = [2,7,11,15], target = 9
+Output: [0,1]
+Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
+Example 2:
+
+Input: nums = [3,2,4], target = 6
+Output: [1,2]
+Example 3:
+
+Input: nums = [3,3], target = 6
+Output: [0,1]
+ 
+
+Constraints:
+
+2 <= nums.length <= 104
+-109 <= nums[i] <= 109
+-109 <= target <= 109
+Only one valid answer exists.
+ 
+
+Follow-up: Can you come up with an algorithm that is less than O(n2) time complexity?
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {       
+        /*
+        Using hash to find the target
+        1.itereate the list add key as the nums[i] and value i, 
+        2.if nums[i]-target is present in the hash i and hash_value of (nums[i]-target)
+        */
+        map <int, int> hashmap;
+        vector<int> out;
+        for(int i=0;i<nums.size();i++)
+        {
+            if(hashmap.find(nums[i])==hashmap.end())
+                   hashmap.insert(pair<int,int>(nums[i],i));
+            if(hashmap.find(target-nums[i])!=hashmap.end() && hashmap.find(target-nums[i])->second !=i)
+            {
+                out.push_back(i);
+                out.push_back(hashmap.find(target-nums[i])->second);
+                return out;
+            }
+            
+        }
+         return out;
+    }
+        
+};
+Runtime: 8 ms, faster than 95.22% of C++ online submissions for Two Sum.
+Memory Usage: 11.3 MB, less than 17.08% of C++ online submissions for Two Sum.
+
